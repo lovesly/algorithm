@@ -11,7 +11,6 @@ public class Test{
     private static int lengthOfLongestSubstring(String s) {
         int res = 0;
         int cur = 0;
-        int nextIndex = 0;
         // map
         Map<Character,Integer> ht = new HashMap<>();
         
