@@ -29,3 +29,4 @@ class Solution {
 }
 
 // just a reference
+// extra char array ? 
