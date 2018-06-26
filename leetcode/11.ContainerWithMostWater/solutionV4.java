@@ -7,11 +7,13 @@ class Solution {
         while (start < end) {
             if (left <= right) {
                 do {
+                    if (height[start] < left) continue;
                     max = Math.max(max, (end - start) * height[start]);
                 } while (height[++start] < right);
                 left = height[start];   
             } else {
                 do {
+                    if (height[start] < left) continue;
                     max = Math.max(max, (end - start) * height[end]);
                 } while (height[--end] < left);
                 right = height[end];
