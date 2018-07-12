@@ -16,7 +16,8 @@ var searchRange = function(nums, target) {
         right = nums.length;
         while (left < right) {
             let mid = left + Math.floor((right - left) / 2);
-            if (nums[mid] <= target) left = mid + 1;
+            // <= 比 == 快一点， 太扯淡了
+            if (nums[mid] == target) left = mid + 1;
             else right= mid;
         }
         res[1] = left - 1;
