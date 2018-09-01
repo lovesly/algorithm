@@ -22,5 +22,8 @@ let permute = function(nums) {
     return res
 };
 
-// same idea, only difference is he use p.splice(0) to push a copy. use it like a stack
+// same idea, only difference is he use p.slice(0) to push a copy. use it like a stack
 // this way, you don't have to create a cur instance, you only have one instance.
+
+// test
+console.log(permute([1,2,3]));
