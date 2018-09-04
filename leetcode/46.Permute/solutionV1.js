@@ -23,3 +23,4 @@ var permute = function(nums) {
 };
 
 // very slow, shame on you. 
+// because you create a cur instance every loop
