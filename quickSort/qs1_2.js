@@ -33,5 +33,5 @@ function quickSort(arr) {
     sort(arr, 0, arr.length - 1);
     return arr;
 }
-const arr = [12, 4, 8, 10, 15, 8, 21];
+const arr = [12, 4, 8, 10, 15, 8, 21, 1];
 console.log(quickSort(arr));

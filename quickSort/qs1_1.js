@@ -17,4 +17,5 @@ function quickSort(arr) {
     return [...left, pivot, ...right];
 }
 
-console.log(quickSort([12, 4, 8, 10, 15, 8, 21]));
+console.log(quickSort([12, 4, 8, 10, 15, 8, 2]));
+// 这他妈明显不行啊， 谁的呆逼算法？
