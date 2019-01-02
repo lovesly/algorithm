@@ -26,6 +26,5 @@ class Solution {
 }
 
 
-// since we check the overflow in for loop, we can use a int as the result
+// since we check the overflow in for loop, we can use an int as the result
 // use c to store the char, so that you don't have to do it everytime
-// check the overflow in the forloop, same trick in reverse Integer
