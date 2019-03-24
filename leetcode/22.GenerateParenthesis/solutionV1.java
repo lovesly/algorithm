@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList();
@@ -6,7 +9,7 @@ class Solution {
     }
 
     public void backtrack(List<String> ans, String cur, int open, int close, int max){
-        if (cur`.length() == max * 2) {
+        if (cur.length() == max * 2) {
             ans.add(cur);
             return;
         }
