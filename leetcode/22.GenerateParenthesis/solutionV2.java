@@ -3,7 +3,7 @@ import java.util.List;
 
 class Solution {
     public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList();
+        List<String> ans = new ArrayList<String>();
         if (n == 0) {
             ans.add("");
         } else {
