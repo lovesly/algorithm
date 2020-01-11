@@ -3,10 +3,11 @@
  * @param {number} n
  * @return {number}
  */
-// 真是太tm丑陋了。。。操，卡在 60/64 服了。。
 // 感觉思路错了，不应该通过排序，而是应当总是挑选剩余数量最多的还处理
 // 如果排序的话，那么每一轮都要进行排序, 妈的，竟然通过了。。。
-// 丑陋。。。
+
+// 其实一开始就想了，如果以 n 为每轮的最小单位。其实粒度更合适，就不用每减去一个任务，就去检测是否任务数为0，然后重置index
+// 然后每轮结束 sort，这就是 题解1 的方法。
 var leastInterval = function (tasks, n) {
     // 构建 map
     let map = Array(26).fill(0);
@@ -23,34 +24,26 @@ var leastInterval = function (tasks, n) {
         // 如果 n 为 2，那么最好需要连着3个不一样的任务，否则需要补上等待，最后一轮不需要补
         // 感觉是个数学问题
         len = map.length;
-        // index 指向当前要执行的任务，loop标识执行时长，所以要判断是否超出
-        if (index >= len) {
-            // 说明要待命，任务种类已经少于冷却时长了
-            if (loop === n) {
-                index = 0;
-                loop = 0;
-            } else {
-                index++;
-                loop++;
-            }
-        } else {
-            map[index]--;
-            if (loop === n) { // 判断是下一个，还是重新开始从0循环，不过有个问题就是上面
+        // index 指向当前要执行的任务，loop 标识执行时长，所以要判断是否超出
+        const overflow = index >= len;
+        if (!overflow) map[index]--;
+        if (loop === n) { // 判断是下一个，还是重新开始从0循环，不过有个问题就是上面
+            if (!overflow) {
                 if (map[index] === 0) {
                     map.splice(index, 1);
                 }
                 map.sort((a, b) => b - a);
-                index = 0;
-                loop = 0;
-            } else {
-                // 这里情况特殊。
-                if (map[index] === 0) {
-                    map.splice(index, 1);
-                    index--;
-                }
-                index++;
-                loop++;
             }
+            index = 0;
+            loop = 0;
+        } else {
+            // 这里情况特殊。
+            if (!overflow && map[index] === 0) {
+                map.splice(index, 1);
+                index--;
+            }
+            index++;
+            loop++;
         }
         // 无论是待命，还是选一个任务执行，用时一样
         res++;
