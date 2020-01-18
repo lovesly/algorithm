@@ -11,6 +11,8 @@
  */
 // merge sort, 写得有点复杂，想多了吧
 // 他吗的有点丑陋啊
+// 我是通过第一次遍历一遍，记录总长度 len 来方便后续计算。
+// 题解里，是通过快慢双指针，来找中间node
 var sortList = function(head) {
   if (!head || !head.next) return head;
   let len = 0, h = head;
@@ -19,10 +21,10 @@ var sortList = function(head) {
       h = h.next;
   }
   // break and merge
-  return init(head, len);
+  return sort(head, len);
 };
 
-const init = (head, len) => {
+const sort = (head, len) => {
   if (len <= 1) return head;
   // break point
   const mid = ~~(len/2);
@@ -36,13 +38,15 @@ const init = (head, len) => {
   b.next = null;
   b = tmp;
   // merge
-  a = init(a, mid);
-  b = init(b, len - mid);
+  a = sort(a, mid);
+  b = sort(b, len - mid);
   return merge(a, b);
 };
 
 // merge 有序列表
 const merge = (A, B) => {
+  // 这里如果每次新建一个 listnode 的话
+  // 可以省几行代码
   let H, dummyH;
   if (A.val <= B.val) {
       dummyH = H = A;
