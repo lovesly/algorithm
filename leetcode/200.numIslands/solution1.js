@@ -2,6 +2,10 @@
  * @param {character[][]} grid
  * @return {number}
  */
+// 虽然思路还算清晰，但是有点啰嗦，并且不够快。
+// bfs，其实就是改栈为队列，
+// 然后 bfs 是一层一层的，所以栈需要的空间小一些？
+// dfs，等一下，这是 dfs 么？这他妈是 bfs。。。
 var numIslands = function(grid) {
   if (!grid || !grid.length) return 0;
   let counter = 0;
