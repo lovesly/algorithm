@@ -1,21 +1,29 @@
 /**
  * Initialize your data structure here.
  */
-var Trie = function(key) {
-  this.key = key;
-  this.children = [];
-  // 是否为叶子节点
-  // 其实没有 children 就是叶子节点
-  this.isEndOfWord = false;
+// first try
+// 这个过不了，是因为我这个方法，头部节点只允许插入最多一个值。妈的，如果允许插入 apple 再插入 beer
+// 那这个结构就写错了
+// 是不是需要单独抽出一个 Trie node？
+var Trie = function() {
+  // 不要 key 了，直接 map
+  this.key = undefined;
+  // 这里用 map 感觉好一些，'key': TrieNode
+  this.children = {};
   // 是否有词以当前节点为结尾
   this.wordEndHere = false;
 };
 
+// 
+
 Trie.prototype._insertNext = function(restWord) {
+  // 逻辑有问题，如果 restWord 第一个词已经有了呢？
   const next = new Trie();
   // 递归调用
   next.insert(restWord);
-  this.children.push(next);
+  const key = next.key; 
+  // 有可能 rest 为空插入失败，没有key值
+  if (key) this.children[key] = next;
 }
 
 /**
@@ -27,50 +35,61 @@ Trie.prototype._insertNext = function(restWord) {
 Trie.prototype.insert = function(word) {
   // 记得设置 isEndOfWord 和 wordEndHere
   if (!word) return;
-  const char = word[0];
-  const restWord = word.slice(1);
-  if (char == this.key) {
-      // 已经有节点，插入下一词
-      // 先在 children 里找
-      if (!restWord.length) {
-          // 设置结尾
-          this.wordEndHere = true;
-          return;
-      } else {
-          let i = 0;
-          let children = this.children;
-          let cur;
-          while (i < restWord.length) {
-              const nextChar = restWord[i];
-              cur = children.find((item) => item.key == nextChar);
-              if (cur) {
-                  children = cur.children;
-                  i++;
-              } else {
-                  break;
-              }
-          }
-          // 两种情况，1 是 i == restWord.length
-          // 另一种是，break 出来了
-          if (i < restWord.length) {
-              this._insertNext(restWord.slice(i));
+  // 单词第一个字母要单独处理。
+  const head = word[0];
+  let rest = word.slice(1);
+  if (!this.key) {
+      // 新节点，插
+      this.key = head;
+      // 新节点不会进入下方的递归插入，所以要单独设置 end 标志
+      if (rest.length === 0) {
+        this.wordEndHere = true;
+      }
+      this._insertNext(rest);
+  } else if (this.key == head) {
+      // push to children
+      let i = 0, len = rest.length, cur = this;
+      while (i < len) {
+          const nextChar = rest[i];
+          if (cur.children[nextChar]) {
+              cur = cur.children[nextChar];
+              i++;
           } else {
-              cur.wordEndHere = true;
+              // 后面就都是新的了，直接插。
+              break;
           }
       }
-  } else if (this.key === undefined) {
-      // 新节点，放心插
-      this.key = char;
-      if (restWord.length) {
-          this._insertNext(restWord);
+      rest = word.slice(i+1);
+      if (rest.length) {
+          cur._insertNext(rest);
       } else {
-          // 设置结尾
-          this.wordEndHere = true;
+          // 全插完了，设置结尾标记
+          cur.wordEndHere = true;
       }
   } else {
-      return;
+      console.log(`Insert operation failed`);
   }
 };
+
+/**
+* @return null | Trie node
+* return null or the last trie node
+*/
+Trie.prototype._search = function(word) {
+  if (!word) return false;
+  let i = 0, len = word.length, cur = this;
+  while (i < len && cur) {
+      const char = word[i];
+      const next = word[i+1];
+      if (cur.key == char) {
+          cur = next ? cur.children[next] : cur;
+          i++;
+      } else {
+          break;
+      }
+  }
+  return i == len ? cur : null;
+}
 
 /**
 * Returns if the word is in the trie. 
@@ -78,7 +97,8 @@ Trie.prototype.insert = function(word) {
 * @return {boolean}
 */
 Trie.prototype.search = function(word) {
-  
+  const res = this._search(word);
+  return !!(res && res.wordEndHere);
 };
 
 /**
@@ -87,14 +107,11 @@ Trie.prototype.search = function(word) {
 * @return {boolean}
 */
 Trie.prototype.startsWith = function(prefix) {
-  
+  const res = this._search(prefix);
+  return !!(res && Reflect.ownKeys(res.children).length >= 0);
 };
 
-// test
-var obj = new Trie();
-trie.insert("apple");
-trie.search("apple");   // 返回 true
-trie.search("app");     // 返回 false
-trie.startsWith("app"); // 返回 true
-trie.insert("app");   
-trie.search("app");     // 返回 true
+const trie = new Trie();
+
+// trie.insert("apple");
+console.log(trie.search("a"));   // 返回 true
