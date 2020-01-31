@@ -3,6 +3,8 @@
  * @return {number}
  */
 // 妈的，改良版，击败了 24%，你个垃圾
+// 感觉是大方向有问题，基于遍历的思想，总归是 3次方级别的复杂度
+// 写啰嗦了，再改一版，todo
 var countSubstrings = function(s) {
   let res = 0;
   const cache = new Set();
@@ -39,3 +41,28 @@ var countSubstrings = function(s) {
   }
   return res;
 };
+
+/**
+// 终极优化应该是这样
+// 见鬼了，这个居然更快
+var countSubstrings = function(s) {
+    if(!s) return 0;
+    let count=0;
+    function helper(left,right){
+        while(left>=0 && right<s.length && s[left]===s[right]){
+            left--;
+            right++;
+            count++
+            
+        }
+    }
+    for(let i=0;i<s.length;i++){
+        count++;
+        helper(i-1,i+1);
+        helper(i,i+1);
+    }
+    // console.log(count)
+    return count;
+};
+
+ */
