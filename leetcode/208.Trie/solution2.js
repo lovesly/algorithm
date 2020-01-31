@@ -1,4 +1,8 @@
 // 改良版，second pass，todo
+// 思想是这样，去掉 key，和 children，children 改名字为 keys。
+// 代表本节点的值，因为本节点可以有多个字母，（solution1中我以为 root 只能有一个字母。。）
+// 然后 keys 的 key 为26个字母，value 为下一个 Trie 节点。之前一个 Trie node 只存储一个值，现在一个 Trie node 最多可存 26 个值
+// 这样还有个好处，solution1 头部节点是特殊处理的，现在实现了统一。
 var Trie = function(key) {
   // 这里用 map 感觉好一些，'key': TrieNode
   this.children = {};
