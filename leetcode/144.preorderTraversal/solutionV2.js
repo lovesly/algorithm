@@ -5,6 +5,7 @@
  *     this.left = this.right = null;
  * }
  */
+// 妈的变蠢了啊
 /**
  * @param {TreeNode} root
  * @return {number[]}
@@ -19,6 +20,21 @@ var preorderTraversal = function(root) {
         res.push(cur.val);
         if (cur.right) queue.push(cur.right);
         if (cur.left) queue.push(cur.left);
+    }
+    return res;
+};
+
+// 2020/2/1 wanning/hainan
+var preorderTraversal = function(root) {
+    const res = [];
+    if (root) {
+        const st = [root];
+        while (st.length) {
+            const cur = st.pop();
+            res.push(cur.val);
+            if (cur.right) st.push(cur.right);
+            if (cur.left) st.push(cur.left);
+        }
     }
     return res;
 };
