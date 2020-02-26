@@ -24,6 +24,7 @@ var findKthLargest = function(nums, k) {
 };
 
 // 我还真没见过这种 partition 方式？
+// interesting
 function partition(nums, left, right) {
   if (right > left) {
     swap(nums, left, Math.round(Math.random() * (right - left)) + left)
