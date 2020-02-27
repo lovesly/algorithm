@@ -16,3 +16,27 @@ var inorderTraversal = function(root) {
   }
   return res;
 };
+
+var inorderTraversal = function(root) {
+  const res = [], left = [];
+  let next = root;
+
+  while (left.length || next) {
+      // in this way, you already reset next to null.
+      while (next) {
+          left.push(next);
+          next = next.left;
+      }
+      const tmp = left.pop();
+      res.push(tmp.val);
+      if (tmp.right) {
+          next = tmp.right;
+      }
+  }
+  return res;
+};
+
+// 还是要多想，多写。
+// 前中后序遍历的迭代方法
+// bfs，dfs，dp，二分，几种排序
+// 堆

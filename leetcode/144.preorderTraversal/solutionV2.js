@@ -38,3 +38,18 @@ var preorderTraversal = function(root) {
     }
     return res;
 };
+
+// 2/28 bejing
+// easier than inorder travsersal
+var preorderTraversal = function(root) {
+    const res = [];
+    if (!root) return res;
+    const st = [root];
+    while (st.length) {
+        const cur = st.pop();
+        res.push(cur.val);
+        if (cur.right) st.push(cur.right);
+        if (cur.left) st.push(cur.left);
+    }
+    return res;
+};
